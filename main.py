@@ -833,14 +833,24 @@ class MAIN:
                 threshold = np.array([red, green, blue])
                 original_image_array_init = original_image_array[:, :, :3].astype(np.int16)
 
-                condition = (
-                        (mask_array == 1) &
-                        (original_image_array[:, :, :3] <= threshold).all(axis=-1) &
-                        (np.abs(original_image_array_init[:, :, 0] - original_image_array_init[:, :, 1]) <= tolerance) &
-                        (np.abs(original_image_array_init[:, :, 1] - original_image_array_init[:, :, 2]) <= tolerance) &
-                        (np.abs(original_image_array_init[:, :, 0] - original_image_array_init[:, :, 2]) <= tolerance) &
-                        ~modified_mask
-                )
+                if area['default_side']:
+                    condition = (
+                            (mask_array == 1) &
+                            (original_image_array[:, :, :3] <= threshold).all(axis=-1) &
+                            (np.abs(original_image_array_init[:, :, 0] - original_image_array_init[:, :, 1]) <= tolerance) &
+                            (np.abs(original_image_array_init[:, :, 1] - original_image_array_init[:, :, 2]) <= tolerance) &
+                            (np.abs(original_image_array_init[:, :, 0] - original_image_array_init[:, :, 2]) <= tolerance) &
+                            ~modified_mask
+                    )
+                else:
+                    condition = (
+                            (mask_array == 1) &
+                            (original_image_array[:, :, :3] >= threshold).all(axis=-1) &
+                            (np.abs(original_image_array_init[:, :, 0] - original_image_array_init[:, :, 1]) <= tolerance) &
+                            (np.abs(original_image_array_init[:, :, 1] - original_image_array_init[:, :, 2]) <= tolerance) &
+                            (np.abs(original_image_array_init[:, :, 0] - original_image_array_init[:, :, 2]) <= tolerance) &
+                            ~modified_mask
+                    )
 
                 # Apply color only where the condition is met and within the selected area
                 original_image_array[condition] = color
