@@ -856,9 +856,6 @@ class MAIN:
         area_manager.image = edited_image
         area_manager.draw_areas()
 
-
-
-
     # edit image
     def edit_image_original(self, image, save):
         self.display_default_image = False
