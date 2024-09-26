@@ -824,7 +824,12 @@ class MAIN:
 
                 tolerance = selected_area['t_slider'].get()
 
-                color = (0, 0, 0)
+                # check edition color
+                if save:
+                    color = (255, 255, 255, 0)
+                else:
+                    color = self.background_color
+
                 threshold = np.array([red, green, blue])
                 original_image_array_init = original_image_array[:, :, :3].astype(np.int16)
 
